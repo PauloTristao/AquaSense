@@ -8,11 +8,11 @@ namespace AquaSense.Models
         public UsuarioAdmViewModel() 
         {
             Usuario = new UsuarioViewModel();
-            ConjuntoHabitacional = new ConjuntoHabitacionalViewModel();
+            ConjuntoHabitacional = new SensorViewModel();
         }
 
         public UsuarioViewModel Usuario { get; set; }
 
-        public ConjuntoHabitacionalViewModel ConjuntoHabitacional { get; set; }
+        public SensorViewModel ConjuntoHabitacional { get; set; }
     }
 }

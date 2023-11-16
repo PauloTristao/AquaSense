@@ -55,7 +55,7 @@ namespace AquaSense.DAO
                     UsuarioViewModel usuario = model.Usuario;
                     usuario.Adm = true;
                     ConjuntoHabitacionalDAO conjuntoDao = new ConjuntoHabitacionalDAO();
-                    ConjuntoHabitacionalViewModel conjunto = model.ConjuntoHabitacional;
+                    SensorDAO conjunto = model.ConjuntoHabitacional;
                     conjunto.IdUsuarioAdm = HelperDAO.ExecutaProc("spInsert_" + Tabela, CriaParametros(usuario), ChaveIdentity);
                     conjuntoDao.Insert(conjunto);
                     transacao.Complete();
