@@ -28,6 +28,5 @@ namespace AquaSense.Models
             }
         }
 
-        public string NomeConjuntoHabitacional { get; set; }
     }
 }

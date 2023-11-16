@@ -70,3 +70,147 @@ create table Sensor
 
 	foreign key (id_apartamento) references Apartamento(id_apartamento)
 )
+
+
+--------------------------------------------SP'S USUARIO------------------------------------------------------------
+go
+Create or alter procedure spUpdate_Usuario
+(
+	@id int,
+	@login_usuario varchar(max),
+	@nome_pessoa varchar(max),
+	@senha varchar(max),
+	@adm bit,
+	@imagem varbinary(max)
+)
+as
+begin
+	update Usuario set login_usuario = @login_usuario, nome_pessoa = @nome_pessoa,
+					   senha = @senha, adm = @adm, imagem = @imagem 
+					   where id_usuario = @id
+end
+
+go
+create or alter procedure spInsert_Usuario
+(
+	@id int,
+	@login_usuario varchar(max),
+	@nome_pessoa varchar(max),
+	@senha varchar(max),
+	@adm bit,
+	@imagem varbinary(max)
+)
+as
+begin
+	insert into Usuario (login_usuario, nome_pessoa, senha, adm, imagem) 
+			            values (@login_usuario, @nome_pessoa, @senha, @adm, @imagem)
+end
+
+go
+create or alter procedure spExclui_Usuario
+(
+	@id int
+)
+as
+begin
+ delete Usuario where id_usuario = @id
+end
+GO
+
+------------------------------------------------SP's Login---------------------------------------------------------
+GO
+create or Alter procedure spConsulta_Acesso
+(
+	@login_usuario varchar(max),
+	@senha varchar(max)
+)
+as
+begin
+	select id_usuario, login_usuario, nome_pessoa, senha, imagem, adm from Usuario where login_usuario = @login_usuario and senha = @senha
+end
+GO
+
+------------------------------------------------SP's Conjunto Habitacional---------------------------------------------------------
+
+--go
+--Create or alter procedure spUpdate_ConjuntoHabitacional
+--(
+--	@id int,
+--	@Nome varchar(max),
+--	@id_usuario int
+--)
+--as
+--begin
+--	update ConjuntoHabitacional set nome = @Nome, id_usuario = @id_usuario
+--					   where id_usuario = @id
+--end
+
+go
+create or alter procedure spInsert_ConjuntoHabitacional
+(
+	@id int,
+	@nome varchar(max),
+	@endereco varchar(max),
+	@cnpj varchar(max),
+	@id_usuario_adm int
+)
+as
+begin
+	insert into Conjunto_Habitacional(nome, endereco, cnpj, id_usuario_adm) 
+			            values (@nome, @endereco, @cnpj, @id_usuario_adm)
+end
+
+
+--go
+--create or alter procedure spConsulta_PortifolioPorUsuario
+--(
+--   @id_usuario int
+--)
+--as
+--begin
+-- select * from ConjuntoHabitacional where id_usuario = @id_usuario
+--end
+--GO
+
+
+------------------------------------------------------SP's GENERICAS-----------------------------------------------
+
+go
+create or alter procedure spListagem
+(
+ @tabela varchar(max),
+ @ordem varchar(max))
+as
+begin
+ exec('select * from ' + @tabela +
+ ' order by ' + @ordem)
+end
+GO
+
+create or alter procedure spConsulta
+(
+ @id int ,
+ @tabela varchar(max)
+)
+as
+begin
+ declare @sql varchar(max);
+ set @sql = 'select * from ' + @tabela +
+ ' where id_' + @tabela + ' = ' + cast(@id as varchar(max))
+ exec(@sql)
+ end
+GO
+
+CREATE OR ALTER procedure spDelete
+(
+ @id int ,
+ @tabela varchar(max)
+)
+as
+begin
+ declare @sql varchar(max);
+ set @sql = ' delete ' + @tabela +
+ ' where id_' + @tabela + ' = ' + cast(@id as varchar(max))
+ exec(@sql)
+end
+GO

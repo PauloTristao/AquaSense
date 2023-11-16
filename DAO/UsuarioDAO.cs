@@ -32,20 +32,38 @@ namespace AquaSense.DAO
             {
                 using (var transacao = new System.Transactions.TransactionScope())
                 {
-                    ConjuntoHabitacionalViewModel conj = new ConjuntoHabitacionalViewModel()
-                    {
-                        Nome = model.NomeConjuntoHabitacional
-                    };
+                    model.Adm = false;
                     ConjuntoHabitacionalDAO conjuntoDao = new ConjuntoHabitacionalDAO();
-                    conj.IdUsuarioAdm = HelperDAO.ExecutaProc("spInsert_" + Tabela, CriaParametros(model), ChaveIdentity);
-                    conjuntoDao.Insert(conj);
+                    HelperDAO.ExecutaProc("spInsert_" + Tabela, CriaParametros(model), ChaveIdentity);
                     transacao.Complete();
                 }
                 return model.Id;
             }
-            catch 
+            catch (Exception erro)
             {
-                return 0;
+                throw new Exception("Não foi possível salvar o usuario" + erro.Message);
+            }
+
+        }
+
+        public void InsertUsuarioAdm(UsuarioAdmViewModel model)
+        {
+            try
+            {
+                using (var transacao = new System.Transactions.TransactionScope())
+                {
+                    UsuarioViewModel usuario = model.Usuario;
+                    usuario.Adm = true;
+                    ConjuntoHabitacionalDAO conjuntoDao = new ConjuntoHabitacionalDAO();
+                    ConjuntoHabitacionalViewModel conjunto = model.ConjuntoHabitacional;
+                    conjunto.IdUsuarioAdm = HelperDAO.ExecutaProc("spInsert_" + Tabela, CriaParametros(usuario), ChaveIdentity);
+                    conjuntoDao.Insert(conjunto);
+                    transacao.Complete();
+                }
+            }
+            catch (Exception erro)
+            {
+                throw new Exception("Não foi possível salvar o usuario" + erro.Message);
             }
 
         }
@@ -56,20 +74,15 @@ namespace AquaSense.DAO
             {
                 using (var transacao = new System.Transactions.TransactionScope())
                 {
-                    ConjuntoHabitacionalViewModel conj = new ConjuntoHabitacionalViewModel()
-                    {
-                        Nome = model.NomeConjuntoHabitacional
-                    };
-                    conj.IdUsuarioAdm = HelperDAO.ExecutaProc("spUpdate_" + Tabela, CriaParametros(model));
+                    HelperDAO.ExecutaProc("spUpdate_" + Tabela, CriaParametros(model));
                     ConjuntoHabitacionalDAO conjuntoDAO = new ConjuntoHabitacionalDAO();
-                    conjuntoDAO.Update(conj);
 
                     transacao.Complete();
                 }
             }
             catch (Exception erro)
             {
-                
+                throw new Exception("Não foi possível salvar o usuario" + erro.Message);
             }
         }
 

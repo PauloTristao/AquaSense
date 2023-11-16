@@ -29,9 +29,9 @@
             <li>
                 <a href="#" onclick="CarregaPaginaCentral('/Home/Index')">
                     <i class='bx bx-grid-alt'></i>
-                    <span class="links_name">Home</span>
+                    <span class="links_name">Dashboard</span>
                 </a>
-                <span class="tooltip">Home</span>
+                <span class="tooltip">Dashboard</span>
             </li>
             @if (ViewBag.Adm)
             {
@@ -39,34 +39,46 @@
 
                     <a href="#" onclick="CarregaPaginaCentral('/Usuario/Index')">
                         <i class='bx bx-user'></i>
-                        <span class="links_name">User</span>
+                        <span class="links_name">Usuário</span>
                     </a>
-                    <span class="tooltip">User</span>
+                    <span class="tooltip">Usuário</span>
                 </li>
             } 
-            <li>
-                <a href="#" onclick="CarregaPaginaCentral('/Portifolio/Index')">
-                    <i class='bx bx-wallet'></i>
-                    <span class="links_name">Portifolio</span>
+            @if (ViewBag.Adm)
+            {
+                <li>
+                    <a href="#" onclick="CarregaPaginaCentral('/ConjuntoHabitacional/Index')">
+                    <i class='bx bx-building-house'></i>
+                    <span class="links_name">Conjunto Habitacional</span>
                 </a>
-                <span class="tooltip">Portifolio</span>
-            </li>
+                <span class="tooltip">Conjunto Habitacional</span>
+                </li>
+            }else
+            {
+                <li>
+                    <a href="#" onclick="CarregaPaginaCentral('/Apartamento/Index')">
+                        <i class='bx bx-building-house'></i>
+                        <span class="links_name">Apartamento</span>
+                    </a>
+                    <span class="tooltip">Apartamento</span>
+                </li>
+            }
             @if (ViewBag.Adm)
             { 
                 <li>
                     <a href="#" onclick="CarregaPaginaCentral('/Ativo/Index')">
-                        <i class='bx bx-money'></i>
-                        <span class="links_name">Ativos</span>
+                        <i class='bx bx-broadcast'></i>
+                        <span class="links_name">Sensor</span>
                     </a>
-                    <span class="tooltip">Ativos</span>
+                    <span class="tooltip">Sensor</span>
                 </li>
             } 
             <li>
                 <a href="#" onclick="CarregaPaginaCentral('/Carteira/ExibeMovimentacao')">
-                    <i class='bx bx-transfer'></i>
-                    <span class="links_name">Movimentações</span>
+                    <i class='bx bx-dollar'></i>
+                    <span class="links_name">Contas</span>
                 </a>
-                <span class="tooltip">Movimentações</span>
+                <span class="tooltip">Contas</span>
             </li>
             <li>
                 <a href="#" onclick="CarregaPaginaCentral('/Sobre/Index')">

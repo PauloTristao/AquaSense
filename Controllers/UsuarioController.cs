@@ -29,13 +29,9 @@ namespace AquaSense.Controllers
                 }
                 else
                 {
-                    ConjuntoHabitacionalViewModel conj = new ConjuntoHabitacionalViewModel()
-                    {
-                        Nome = model.NomeConjuntoHabitacional
-                    };
                     if (Operacao == "I")
                     {
-                        conj.IdUsuarioAdm = DAO.Insert(model);
+                        DAO.Insert(model);
                     }
                     else
                     {
@@ -68,8 +64,6 @@ namespace AquaSense.Controllers
             base.ValidaDados(model, operacao);
             if (string.IsNullOrEmpty(model.NomePessoa))
                 ModelState.AddModelError("NomePessoa", "Preencha o nome.");
-            if (string.IsNullOrEmpty(model.NomeConjuntoHabitacional))
-                ModelState.AddModelError("NomeConjuntoHabitacional", "Preencha o portifolio.");
             if (string.IsNullOrEmpty(model.Senha))
                 ModelState.AddModelError("senha", "Preencha a senha.");
             if (model != null && !string.IsNullOrEmpty(model.Senha) && model.Senha.Length < 4)
@@ -101,7 +95,6 @@ namespace AquaSense.Controllers
                 ViewBag.Operacao = "A";
                 var model = DAO.Consulta(id);
                 var portifolioDAO = new ConjuntoHabitacionalDAO();
-                model.NomeConjuntoHabitacional = portifolioDAO.ConsultaConjuntoHabitacionalPorUsuario(id).Nome;
                 if (model == null)
                     return RedirectToAction(NomeViewIndex);
                 else
