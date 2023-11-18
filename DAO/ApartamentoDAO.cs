@@ -24,13 +24,17 @@ namespace AquaSense.DAO
         {
             ApartamentoViewModel apartamento = new ApartamentoViewModel();
             apartamento.Id = Convert.ToInt32(registro["id_apartamento"]);
+            apartamento.NumeroApartamento = registro["numero_apartamento"].ToString();
+            apartamento.IdConjuntoHabitacional = Convert.ToInt32(registro["id_conjunto_habitacional"]);
+            apartamento.IdSensor = Convert.ToInt32(registro["id_sensor"]);
+            apartamento.IdUsuario = Convert.ToInt32(registro["id_usuario"]);
 
-            return null;
+            return apartamento;
         }
 
         protected override void SetTabela()
         {
-            throw new System.NotImplementedException();
+            Tabela = "Apartamento";
         }
     }
 }
