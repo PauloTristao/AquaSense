@@ -1,6 +1,4 @@
-﻿
-
-$(document).ready(function init() {
+﻿function init() {
     const ctx = document.getElementById('myChart');
     url = "Api/RequestHistory";
     $.ajax({
@@ -13,13 +11,13 @@ $(document).ready(function init() {
             });
 
             var listaDeDatas = data.map(function (objeto) {
-                var data = objeto.recvTime.substring(0,10);
+                var data = objeto.recvTime.substring(0, 10);
                 var dataRetorno = objeto.recvTime.substring(11, 19);
                 return data + " " + dataRetorno;
-                
+
             });
 
-            new Chart(ctx, {
+            var chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: listaDeDatas,
@@ -37,13 +35,21 @@ $(document).ready(function init() {
                     }
                 }
             });
+
+            chart.update();
         },
         error: function () {
             alert("Erro ao carregar o conteúdo.");
         }
+
     });
 
+}
 
-   
-});
+$(document).ready(function () {
+    setInterval(init, 10000);
+})
+
+
+
 
