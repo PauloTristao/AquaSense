@@ -1,4 +1,5 @@
 ﻿using AquaSense.Models;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -14,14 +15,17 @@ namespace AquaSense.DAO
                 new SqlParameter("numero_apartamento", model.NumeroApartamento),
                 new SqlParameter("id_conjunto_habitacional", model.IdConjuntoHabitacional),
                 new SqlParameter("id_sensor", model.IdSensor),
-
+                new SqlParameter("id_usuario", model.IdUsuario)
             };
-            return null;
+            return parameters;
         }
 
         protected override ApartamentoViewModel MontaModel(DataRow registro)
         {
-            throw new System.NotImplementedException();
+            ApartamentoViewModel apartamento = new ApartamentoViewModel();
+            apartamento.Id = Convert.ToInt32(registro["id_apartamento"]);
+
+            return null;
         }
 
         protected override void SetTabela()

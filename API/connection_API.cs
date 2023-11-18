@@ -13,7 +13,7 @@ namespace Conexao_MongoDB
             {
                 try
                 {
-                    var request = new RestRequest("v2/entities/urn:ngsi-ld:Flux:010/attrs/flux", Method.Get);
+                    var request = new RestRequest($"v2/entities/urn:ngsi-ld:{device}/attrs/flux", Method.Get);
                     request.AddHeader("fiware-service", "smart");
                     request.AddHeader("fiware-servicepath", "/");
                     request.AddHeader("accept", "application/json");
@@ -68,7 +68,7 @@ namespace Conexao_MongoDB
                     string dateFrom_String = dateFrom.ToString("yyyy-MM-ddTHH:mm:ss.fff");
                     string dateTo_String = dateTo.ToString("yyyy-MM-ddTHH:mm:ss.fff");
 
-                    RestRequest request = new RestRequest($"STH/v1/contextEntities/type/Flux/id/urn:ngsi-ld:Flux:010/attributes/flux?dateFrom={dateFrom_String}&dateTo={dateTo_String}&hLimit={hLimit}&hOffset={hOffset}", Method.Get);
+                    RestRequest request = new RestRequest($"STH/v1/contextEntities/type/Flux/id/urn:ngsi-ld:{device}/attributes/flux?dateFrom={dateFrom_String}&dateTo={dateTo_String}&hLimit={hLimit}&hOffset={hOffset}", Method.Get);
                     request.AddHeader("fiware-service", "smart");
                     request.AddHeader("fiware-servicepath", "/");
 

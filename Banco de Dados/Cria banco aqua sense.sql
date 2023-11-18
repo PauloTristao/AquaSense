@@ -45,6 +45,14 @@ begin
 end
 GO
 
+------------------------------------------Criação da tabela Sensor--------------------------------------------------
+go
+create table Sensor
+(
+	id_sensor int primary key identity(1,1) not null,
+	descricao varchar(100) not null,
+	codigo_fiware varchar(20) NOT NULL,
+)
 ------------------------------------------Criação da tabela Apartamento--------------------------------------------------
 go
 create table Apartamento
@@ -52,25 +60,14 @@ create table Apartamento
 	id_apartamento int primary key identity(1,1) not null,
 	numero_apartamento varchar(100) not null,
 	id_conjunto_habitacional int not null,
-	id_sensor int not null,
+	id_sensor int null,
 	id_usuario int null,
 
 	foreign key (id_conjunto_habitacional) references Conjunto_Habitacional(id_conjunto_habitacional) on delete cascade,
 	foreign key (id_usuario) references Usuario(id_usuario),
+	foreign key (id_sensor) references Sensor(id_sensor),
+
 )
-
-
-------------------------------------------Criação da tabela Sensor--------------------------------------------------
-go
-create table Sensor
-(
-	id_sensor int primary key identity(1,1) not null,
-	descricao varchar(100) not null,
-	id_apartamento int not null,
-
-	foreign key (id_apartamento) references Apartamento(id_apartamento)
-)
-
 
 --------------------------------------------SP'S USUARIO------------------------------------------------------------
 go
@@ -212,5 +209,31 @@ begin
  set @sql = ' delete ' + @tabela +
  ' where id_' + @tabela + ' = ' + cast(@id as varchar(max))
  exec(@sql)
+end
+GO
+
+------------------------------------------------------SP's Sensor-----------------------------------------------
+
+GO
+create or alter procedure spInsert_Sensor
+ @id int,
+ @descricao varchar(max),
+ @codigo_fiware varchar(max)
+as
+begin
+ insert into Sensor (descricao, codigo_fiware)
+ values (@descricao, @codigo_fiware)
+end
+GO
+
+create or alter procedure spUpdate_Sensor
+(
+ @id int,
+ @descricao varchar(max),
+ @codigo_fiware varchar(max)
+)
+as
+begin
+ update Sensor set descricao = @descricao, codigo_fiware = @codigo_fiware where id_Sensor = @id
 end
 GO

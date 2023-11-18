@@ -11,9 +11,8 @@ namespace AquaSense.DAO
         {
             SqlParameter[] parameters = new SqlParameter[] {
                 new SqlParameter("id", model.Id),
-                new SqlParameter("decricao", model.descricao),
-                new SqlParameter("id_apartamento", model.Id_Apartamento),
-
+                new SqlParameter("descricao", model.Descricao),
+                new SqlParameter("codigo_fiware", model.CodigoFiware),
             };
 
             return parameters;
@@ -23,8 +22,8 @@ namespace AquaSense.DAO
         {
             SensorViewModel SensorViewModel = new SensorViewModel();
             SensorViewModel.Id = Convert.ToInt32(registro["id_sensor"]);
-            SensorViewModel.descricao = registro["descricao"].ToString();
-            SensorViewModel.Id_Apartamento = Convert.ToInt32(registro["id_apartamento"]);
+            SensorViewModel.Descricao = registro["descricao"].ToString();
+            SensorViewModel.CodigoFiware = registro["codigo_fiware"].ToString();
             return SensorViewModel;
         }
 

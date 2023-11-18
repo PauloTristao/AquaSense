@@ -2,7 +2,7 @@
 {
     public class SensorViewModel : PadraoViewModel
     {
-        public string descricao { get; set; }
-        public int Id_Apartamento { get; set; }
+        public string Descricao { get; set; }
+        public string CodigoFiware { get; set; }
     }
 }

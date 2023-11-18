@@ -8,7 +8,7 @@ namespace AquaSense.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+         
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -27,7 +27,7 @@ namespace AquaSense.Controllers
             else
                 return RedirectToAction("Index", "Login");
 
-            return View();
+            return View("Index");
         }
 
         public IActionResult Privacy()
