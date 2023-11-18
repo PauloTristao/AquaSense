@@ -15,7 +15,8 @@ namespace AquaSense.DAO
                 new SqlParameter("id_conjunto_habitacional", model.IdConjuntoHabitacional),
                 new SqlParameter("id_sensor", model.IdSensor),
 
-            }
+            };
+            return null;
         }
 
         protected override ApartamentoViewModel MontaModel(DataRow registro)
