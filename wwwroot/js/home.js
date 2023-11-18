@@ -7,14 +7,25 @@ $(document).ready(function init() {
         url: url,
         type: "POST",
         success: function (data) {
-            debugger;
+
+            var listaDeValores = data.map(function (objeto) {
+                return objeto.attrValue;
+            });
+
+            var listaDeDatas = data.map(function (objeto) {
+                var data = objeto.recvTime.substring(0,10);
+                var dataRetorno = objeto.recvTime.substring(11, 19);
+                return data + " " + dataRetorno;
+                
+            });
+
             new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: data.recvTime,
+                    labels: listaDeDatas,
                     datasets: [{
-                        label: '# of Votes',
-                        data: data.attrValue,
+                        label: 'Vazão',
+                        data: listaDeValores,
                         borderWidth: 1
                     }]
                 },
