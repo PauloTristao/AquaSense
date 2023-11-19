@@ -1,5 +1,6 @@
 ﻿using AquaSense.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -31,10 +32,26 @@ namespace AquaSense.DAO
 
             return apartamento;
         }
+        public List<ApartamentoViewModel> ConsultaApartamentosPorConjuntoHabitacional(int conjuntoHabitacional)
+        {
+            var p = new SqlParameter[]
+            {
+                new SqlParameter("id_conjunto_habitacional", conjuntoHabitacional),
+            };
+
+            var tabela = HelperDAO.ExecutaProcSelect("spConsulta_ApartamentoPorConjuntoHabitacional", p);
+            List<ApartamentoViewModel> lista = new List<ApartamentoViewModel>();
+
+            foreach (DataRow registro in tabela.Rows)
+                lista.Add(MontaModel(registro));
+
+            return lista;
+        }
 
         protected override void SetTabela()
         {
             Tabela = "Apartamento";
+            ChaveIdentity = true;
         }
     }
 }

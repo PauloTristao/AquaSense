@@ -1,4 +1,4 @@
-﻿@* @model ConjuntoHabitacionalViewModel
+﻿@model ConjuntoHabitacionalViewModelConsulta
 @{
     Layout = "_LayoutSideBar";
 }
@@ -11,32 +11,32 @@
 
 </style>
 <head>
-    <link rel="stylesheet" href="~/css/portifolio.css" />
+    <link rel="stylesheet" href="~/css/conjuntoHabitacional.css" />
     <script src="~/js/site.js"></script>
 </head>
 <body>
     <div class="container">
         <fieldset class="mt-3">
-            <legend>Portifólio</legend>
-            <input type="hidden" id="IdPortifolio" name="IdPortifolio" value="@Model.Portifolio.IdPortifolio" />
-            <input type="hidden" id="IdUsuario" name="IdUsuario" value="@Model.Portifolio.IdUsuario" />
+            <legend style="width: 28%">Conjunto Habitacional</legend>
+            <input type="hidden" id="IdConjuntoHabitacional" name="IdConjuntoHabitacional" value="@Model.ConjuntoHabitacional.Id" />
+            <input type="hidden" id="IdUsuario" name="IdUsuario" value="@Model.ConjuntoHabitacional.IdUsuarioAdm" />
             <div class="row">
                 <div class="col-md-3">
-                    <label for="Portifolio.NomePortifolio" class="control-label">Nome:</label>
-                    <input asp-for="Portifolio.NomePortifolio" class="form-control" readonly />
-                    <span asp-validation-for="Portifolio.NomePortifolio" class="text-danger"></span>
+                    <label for="ConjuntoHabitacional.Nome" class="control-label">Nome:</label>
+                    <input asp-for="ConjuntoHabitacional.Nome" class="form-control" readonly />
+                    <span asp-validation-for="ConjuntoHabitacional.Nome" class="text-danger"></span>
                     <br />
                 </div>
                 <div class="col-md-3">
-                    <label for="Portifolio.Total" class="control-label">Total:</label>
-                    <input asp-for="Portifolio.Total" class="form-control" readonly />
-                    <span asp-validation-for="Portifolio.Total" class="text-danger"></span>
+                    <label for="ConjuntoHabitacional.Endereco" class="control-label">Endereço:</label>
+                    <input asp-for="ConjuntoHabitacional.Endereco" class="form-control" readonly />
+                    <span asp-validation-for="ConjuntoHabitacional.Endereco" class="text-danger"></span>
                     <br />
                 </div>
                 <div class="col-md-2">
-                    <label for="Portifolio.Quantidade" class="control-label">Quantidade:</label>
-                    <input asp-for="Portifolio.Quantidade" class="form-control" readonly />
-                    <span asp-validation-for="Portifolio.Quantidade" class="text-danger"></span>
+                    <label for="ConjuntoHabitacional.Cnpj" class="control-label">CNPJ:</label>
+                    <input asp-for="ConjuntoHabitacional.Cnpj" class="form-control" readonly />
+                    <span asp-validation-for="ConjuntoHabitacional.Cnpj" class="text-danger"></span>
                     <br />
                 </div>
                 <div class="col-md-1 text-right" style="margin-top: 30px">
@@ -45,22 +45,22 @@
             </div>
         </fieldset>
         <fieldset class="mt-3">
-            <legend style="width: 11%">Carteiras</legend>
+            <legend style="width: 18%">Apartamentos</legend>
             <div class="row ml-3">
                 <div class="mt-auto text-right">
-                    <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#NovaCarteira">+</a>
+                    <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#NovoApartamento">+</a>
                 </div>
             </div>
             <section>
                 <div class="row mt-3">
-                    @foreach (CarteiraPortifolioViewModel carteira in Model.Carteiras)
+                    @foreach (ApartamentoViewModel apartamento in Model.Apartamentos)
                     {
                         <div class="col-md-3 mb-5">
                             <div class="card"  style="width: 15rem;">
-                                <div class="card-body" onclick="ConsultaCarteira('/Carteira/CarregaCarteira', @carteira.IdCarteira)">
-                                    <h5 class="card-title">@carteira.CarteiraNome</h5>
-                                    <p>Quantidade: @carteira.Quantidade</p>
-                                    <p>Total: R$@carteira.Total</p>
+                                <div class="card-body" onclick="ConsultaCarteira('/Carteira/CarregaCarteira', @apartamento.Id)">
+                                    <h5 class="card-title">@apartamento.NumeroApartamento</h5>
+                                    <p>Quantidade: sei lá porra</p>
+                                    <p>Total: sei lá porra</p>
                                 </div>
                             </div>
                         </div>
@@ -74,18 +74,28 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Altere o nome do portifólio:</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Altere o conjunto Habitacional:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                     <div class="col-md-6">
-                         <label for="Portifolio.NomePortifolio" class="control-label">Nome:</label>
-                         <input asp-for="Portifolio.NomePortifolio" id="NomePortifolioModal" class="form-control" />
-                         <span asp-validation-for="Portifolio.NomePortifolio" class="text-danger"></span>
-                         <br />
-                     </div>
+                <div class="col-md-3">
+                    <label for="ConjuntoHabitacional.Nome" class="control-label">Nome:</label>
+                    <input asp-for="ConjuntoHabitacional.Nome" class="form-control"  />
+                    <span asp-validation-for="ConjuntoHabitacional.Nome" class="text-danger"></span>
+                    <br />
+                </div>
+                <div class="col-md-3">
+                    <label for="ConjuntoHabitacional.Endereco" class="control-label">Endereço:</label>
+                    <input asp-for="ConjuntoHabitacional.Endereco" class="form-control"  />
+                    <span asp-validation-for="ConjuntoHabitacional.Endereco" class="text-danger"></span>
+                    <br />
+                </div>
+                <div class="col-md-2">
+                    <label for="ConjuntoHabitacional.Cnpj" class="control-label">CNPJ:</label>
+                    <input asp-for="ConjuntoHabitacional.Cnpj" class="form-control"  />
+                    <span asp-validation-for="ConjuntoHabitacional.Cnpj" class="text-danger"></span>
+                    <br />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -96,7 +106,7 @@
     </div>
 
 
-    <div class="modal fade" id="NovaCarteira" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="NovoApartamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,15 +117,15 @@
                 </div>
                 <div class="modal-body">
                     <div class="col-md-6">
-                        <label for="nomeNovaCarteira" class="control-label">Nome:</label>
-                        <input type="text" id="nomeNovaCarteira" class="form-control">
+                        <label for="nomeNovoApartamento" class="control-label">Nome:</label>
+                        <input type="text" id="nomeNovoApartamento" class="form-control">
                         <span id="campoPersonalizado-error" class="text-danger"></span>
                         <br />
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="CriaNovaCarteira('/Carteira/Save')">Salvar</button>
+                    <button type="button" class="btn btn-primary" onclick="CriaNovoApartamento('/Carteira/Save')">Salvar</button>
                 </div>
             </div>
         </div>
@@ -123,23 +133,13 @@
 </body>
 
 <script>
-    $('#exampleModal').on('show.bs.modal', function (event) {
+    $('#NovoApartamento').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var recipient = button.data('whatever') // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
-        modal.find('.modal-title').text('New message to ' + recipient)
-        modal.find('.modal-body input').val(recipient)
-    })
-
-    $('#novaCarteira').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('New message to ' + recipient)
+        // modal.find('.modal-title').text('New message to ' + recipient)
         modal.find('.modal-body input').val(recipient)
     })
 
@@ -148,4 +148,3 @@
 </script>
 
 
- *@

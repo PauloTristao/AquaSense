@@ -237,3 +237,14 @@ begin
  update Sensor set descricao = @descricao, codigo_fiware = @codigo_fiware where id_Sensor = @id
 end
 GO
+
+------------------------------------------------------SP's Apartamento-----------------------------------------------
+
+CREATE OR ALTER   procedure [dbo].[spConsulta_ApartamentoPorConjuntoHabitacional]
+(
+   @id_conjunto_habitacional int
+)
+as
+begin
+ select * from Conjunto_Habitacional where id_conjunto_habitacional = @id_conjunto_habitacional
+end

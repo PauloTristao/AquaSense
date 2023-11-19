@@ -27,15 +27,15 @@ namespace AquaSense.DAO
             ConjuntoHabitacional.IdUsuarioAdm = Convert.ToInt32(registro["id_usuario_adm"]);
             ConjuntoHabitacional.Endereco = registro["endereco"].ToString();
             ConjuntoHabitacional.Nome = registro["nome"].ToString();
-            ConjuntoHabitacional.Cnpj = registro["cpj"].ToString();
+            ConjuntoHabitacional.Cnpj = registro["cnpj"].ToString();
             return ConjuntoHabitacional;
         }
 
-        public ConjuntoHabitacionalViewModel ConsultaConjuntoHabitacionalPorUsuario(int id_usuario)
+        public ConjuntoHabitacionalViewModel ConsultaConjuntoHabitacionalPorUsuario(int idUsuario)
         {
             var p = new SqlParameter[]
             {
-                new SqlParameter("id_usuario_adm", id_usuario),
+                new SqlParameter("id_usuario_adm", idUsuario),
             };
 
             var tabela = HelperDAO.ExecutaProcSelect("spConsulta_ConjuntoHabitacionalPorUsuario", p);
