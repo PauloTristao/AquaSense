@@ -25,6 +25,8 @@ namespace AquaSense.Controllers
 
                 retorno.Apartamentos = apartamentoDao.ConsultaApartamentosPorConjuntoHabitacional(retorno.ConjuntoHabitacional.Id);
 
+                retorno.ConjuntoHabitacional.IdUsuarioAdm = usuario.Id;
+
                 return View("Index", retorno);
             }
             catch (Exception erro)
@@ -32,7 +34,5 @@ namespace AquaSense.Controllers
                 return View("Error", new ErrorViewModel(erro.ToString()));
             }
         }
-
-       
     }
 }

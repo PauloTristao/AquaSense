@@ -34,16 +34,6 @@ create table Conjunto_Habitacional
 	UNIQUE (id_usuario_adm)
 )
 
-go
-create or alter procedure spConsulta_ConjuntoHabitacionalPorUsuario
-(
-   @id_usuario_adm int
-)
-as
-begin
- select * from Conjunto_Habitacional where id_usuario_adm = @id_usuario_adm
-end
-GO
 
 ------------------------------------------Criação da tabela Sensor--------------------------------------------------
 go
@@ -58,15 +48,16 @@ go
 create table Apartamento
 (
 	id_apartamento int primary key identity(1,1) not null,
-	numero_apartamento varchar(100) not null,
+	descricao varchar(100) not null,
 	id_conjunto_habitacional int not null,
 	id_sensor int null,
 	id_usuario int null,
 
+	UNIQUE (id_sensor),
+
 	foreign key (id_conjunto_habitacional) references Conjunto_Habitacional(id_conjunto_habitacional) on delete cascade,
 	foreign key (id_usuario) references Usuario(id_usuario),
 	foreign key (id_sensor) references Sensor(id_sensor),
-
 )
 
 --------------------------------------------SP'S USUARIO------------------------------------------------------------
@@ -129,18 +120,21 @@ GO
 
 ------------------------------------------------SP's Conjunto Habitacional---------------------------------------------------------
 
---go
---Create or alter procedure spUpdate_ConjuntoHabitacional
---(
---	@id int,
---	@Nome varchar(max),
---	@id_usuario int
---)
---as
---begin
---	update ConjuntoHabitacional set nome = @Nome, id_usuario = @id_usuario
---					   where id_usuario = @id
---end
+go
+Create or alter procedure spUpdate_Conjunto_Habitacional
+(
+	@id int,
+	@nome varchar(max),
+	@endereco varchar(max),
+	@cnpj varchar(max),
+	@id_usuario_adm int
+)
+as
+begin
+	update Conjunto_Habitacional set nome = @Nome, id_usuario_adm = @id_usuario_adm,
+									 endereco = @endereco, cnpj = @cnpj
+								 where id_conjunto_habitacional = @id
+end
 
 go
 create or alter procedure spInsert_ConjuntoHabitacional
@@ -157,6 +151,13 @@ begin
 			            values (@nome, @endereco, @cnpj, @id_usuario_adm)
 end
 
+go
+create or alter procedure spConsulta_SensoresDisponiveis
+as
+begin
+ select * from Conjunto_Habitacional where id_usuario_adm = @id_usuario_adm
+end
+GO
 
 --go
 --create or alter procedure spConsulta_PortifolioPorUsuario
@@ -239,12 +240,45 @@ end
 GO
 
 ------------------------------------------------------SP's Apartamento-----------------------------------------------
-
-CREATE OR ALTER   procedure [dbo].[spConsulta_ApartamentoPorConjuntoHabitacional]
+GO
+CREATE OR ALTER procedure [dbo].[spConsulta_ApartamentoPorConjuntoHabitacional]
 (
    @id_conjunto_habitacional int
 )
 as
 begin
- select * from Conjunto_Habitacional where id_conjunto_habitacional = @id_conjunto_habitacional
+ select * from Apartamento where id_conjunto_habitacional = @id_conjunto_habitacional
+end
+
+GO
+create or alter procedure spInsert_Apartamento
+(
+	@id int,
+	@descricao varchar(max),
+	@id_conjunto_habitacional int,
+	@id_sensor int,
+	@id_usuario int
+)
+as
+begin
+	insert into Apartamento (descricao, id_conjunto_habitacional, id_sensor, id_usuario)
+	values (@descricao, @id_conjunto_habitacional, @id_sensor, @id_usuario)
+end
+GO
+
+go
+Create or alter procedure spUpdate_Apartamento
+(
+	@id int,
+	@descricao varchar(max),
+	@id_conjunto_habitacional int,
+	@id_sensor int,
+	@id_usuario int
+)
+as
+begin
+	update Apartamento set descricao = @descricao, id_conjunto_habitacional = @id_conjunto_habitacional,
+									   id_sensor = @id_sensor, id_usuario = @id_usuario
+						where id_Apartamento = @id
+
 end

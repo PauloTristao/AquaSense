@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace AquaSense.Controllers
 {
@@ -107,6 +108,13 @@ namespace AquaSense.Controllers
             {
                 return View("Error", new ErrorViewModel(erro.ToString()));
             }
+        }
+        public IActionResult ConsultaUsuariosCombo()
+        {
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+            var lista = usuarioDao.Listagem();
+
+            return Json(lista.Select(usuario => new { Id = usuario.Id, Descricao = usuario.LoginUsuario }));
         }
     }
   

@@ -47,7 +47,7 @@ namespace AquaSense.DAO
 
         protected override void SetTabela()
         {
-            Tabela = "ConjuntoHabitacional";
+            Tabela = "Conjunto_Habitacional";
             ChaveIdentity = true;
         }
     }

@@ -1,0 +1,147 @@
+﻿@model ApartamentoViewModel
+@{
+    Layout = "_LayoutSideBar";
+}
+
+<style>
+    .modal-backdrop {
+        display: none;
+    }
+
+</style>
+<head>
+    <link rel="stylesheet" href="~/css/apartamento.css" />
+    <script src="~/js/site.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body> 
+    <div class="container">
+        <fieldset class="mt-3">
+            <legend style="width: 15%">Apartamento</legend>
+            <input type="hidden" id="IdApartamento" name="IdApartamento" value="@Model.Id" />
+            <input type="hidden" id="IdConjuntoHabitacional" name="IdConjuntoHabitacional" value="@Model.IdConjuntoHabitacional" />
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="Descricao" class="control-label">Descrição</label>
+                    <input asp-for="Descricao" class="form-control" readonly disabled />
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                    <br />
+                </div>
+                <div class="col-md-3">
+                    <label for="IdSensor" class="control-label">Sensor</label>
+                    <select asp-for="IdSensor" asp-items="ViewBag.Sensores" class="form-control" readonly disabled> </select>
+                    <span asp-validation-for="IdSensor" class="text-danger"></span>
+                    <br />
+                </div>
+                <div class="col-md-3">
+                    <label for="IdUsuario" class="control-label">Usuario</label>
+                    <select asp-for="IdUsuario" asp-items="ViewBag.Usuarios" class="form-control" readonly disabled> </select>
+                    <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                    <br />
+                </div>
+                <div class="col-md-1 text-right" style="margin-top: 30px">
+                    <a href="#" onclick="ConsultaSensoresDisponiveis(@Model.IdSensor)" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">Editar</a>
+                </div>
+            </div>
+        </fieldset>
+        <div style="margin-left: -20px" id="myContainer" class="container mt-3">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Altere as informações do apartamento:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-6">
+                        <label for="Descricao" class="control-label">Descrição</label>
+                        <input asp-for="Descricao" id="DescricaoModal" class="form-control"  />
+                        <span asp-validation-for="Descricao" class="text-danger"></span>
+                        <br />
+                    </div>
+                    <div class="col-md-6">
+                        Sensor<br />
+                        <select id="sensor" class="form-control"></select>
+                        <br />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="IdUsuario" class="control-label">Usuario</label>
+                        <select asp-for="IdUsuario" id="IdUsuarioModal" asp-items="ViewBag.Usuarios" class="form-control"> </select>
+                        <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                        <br />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="AtualizaApartamento('/Apartamento/Save')">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-body input').val(recipient)
+    })
+
+    $(document).ready(function init() {
+        const ctx = document.getElementById('myChart');
+        var idSensor = $("#IdSensor").val();
+
+        url = "../Api/RequestHistoryApartamento?idSensor=" + idSensor;
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: function (data) {
+
+                var listaDeValores = data.map(function (objeto) {
+                    return objeto.attrValue;
+                });
+
+                var listaDeDatas = data.map(function (objeto) {
+                    var data = objeto.recvTime.substring(0, 10);
+                    var dataRetorno = objeto.recvTime.substring(11, 19);
+                    return data + " " + dataRetorno;
+
+                });
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: listaDeDatas,
+                        datasets: [{
+                            label: 'Vazão',
+                            data: listaDeValores,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            },
+            error: function () {
+                alert("Erro ao carregar o conteúdo.");
+            }
+        });
+    });
+</script>
+
+

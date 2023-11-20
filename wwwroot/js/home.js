@@ -6,8 +6,7 @@ $(document).ready(function () {
 })
 
 function init() {
-    //$('#myChart').remove(); // this is my <canvas> element
-    //$('#myContainer').append('<canvas id="myChart"><canvas>');
+    
     const ctx = document.getElementById('myChart');
     url = "Api/RequestHistory";
     $.ajax({
@@ -27,13 +26,15 @@ function init() {
             });
 
             chart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: listaDeDatas,
                     datasets: [{
                         label: 'Vazão',
                         data: listaDeValores,
-                        borderWidth: 1
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
                     }]
                 },
                 options: {
