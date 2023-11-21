@@ -242,7 +242,7 @@ function initApartamento() {
                     }
                 }
             });
-            //chart.update();
+            chart.update();
         },
         error: function () {
             alert("Erro ao carregar o conteúdo.");

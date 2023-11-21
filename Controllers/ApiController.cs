@@ -35,7 +35,7 @@ namespace AquaSense.Controllers
             connection_API conexaoApi = new connection_API();
             if (sensor != null)
             {
-                var dados = conexaoApi.RequestHistory("Flux:" + sensor.CodigoFiware, dateFrom, dateTo, 100, 10);
+                var dados = conexaoApi.RequestHistory("Flux:" + sensor.CodigoFiware, dateFrom, dateTo, 100, 1);
                 return Json(dados);
             }
             else
