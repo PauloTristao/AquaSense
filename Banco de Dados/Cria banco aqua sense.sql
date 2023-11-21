@@ -56,8 +56,6 @@ create table Apartamento
 	UNIQUE (id_sensor),
 
 	foreign key (id_conjunto_habitacional) references Conjunto_Habitacional(id_conjunto_habitacional) on delete cascade,
-	foreign key (id_usuario) references Usuario(id_usuario),
-	foreign key (id_sensor) references Sensor(id_sensor),
 )
 
 --------------------------------------------SP'S USUARIO------------------------------------------------------------
@@ -104,6 +102,25 @@ begin
  delete Usuario where id_usuario = @id
 end
 GO
+
+CREATE OR ALTER PROCEDURE spConsultaAvancadaUsuarios
+(
+    @login varchar(max),
+    @nomePessoa varchar(max),
+    @adm bit
+)
+AS
+BEGIN
+    SELECT * 
+    FROM Usuario 
+    WHERE 
+        (@login = '' OR login_usuario LIKE '%' + @login + '%')
+        AND (@nomePessoa = '' OR nome_pessoa LIKE '%' + @nomePessoa + '%')
+        AND (
+            @adm = 2 OR 
+            (Adm = @adm)
+        );
+END
 
 ------------------------------------------------SP's Login---------------------------------------------------------
 GO

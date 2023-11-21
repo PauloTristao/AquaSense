@@ -8,7 +8,6 @@
     .modal-backdrop {
         display: none;
     }
-
 </style>
 <head>
     <link rel="stylesheet" href="~/css/conjuntoHabitacional.css" />
@@ -48,7 +47,7 @@
             <legend style="width: 18%">Apartamentos</legend>
             <div class="row ml-3">
                 <div class="mt-auto text-right">
-                    <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#NovoApartamento">+</a>
+                    <a href="#" class="btn btn-dark" data-toggle="modal" onclick="carregaUsuarioESensor()" data-target="#NovoApartamento">+</a>
                 </div>
             </div>
             <section>
@@ -56,9 +55,11 @@
                     @foreach (ApartamentoViewModel apartamento in Model.Apartamentos)
                     {
                         <div class="col-md-3 mb-5 ml-2">
-                            <div class="card"  style="width: 15rem;">
+                            <div class="card" style="width: 15rem;">
                                 <div class="card-body" onclick="ConsultaApartamento('/Apartamento/CarregaApartamento', @apartamento.Id)">
                                     <h5 class="card-title">@apartamento.Descricao</h5>
+                                    <p>Sensor: @apartamento.DescricaoSensor</p>
+                                    <p>Usuário: @apartamento.LoginUsuario</p>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +109,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Descrição do apartamento:</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Novo Apartamento:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -121,7 +122,7 @@
                     </div>
                     <div class="col-md-6">
                         Sensor<br />
-                        <select id="sensor" class="form-control"></select>  
+                        <select id="sensor" class="form-control"></select>
                         <br />
                     </div>
                     <div class="col-md-6">
@@ -131,7 +132,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="CriaNovoApartamento('/Apartamento/Save')">Salvar</button>
+                    <button type="button" class="btn btn-primary" onclick="CriaNovoApartamento('../Apartamento/Save')">Salvar</button>
                 </div>
             </div>
         </div>
@@ -139,19 +140,14 @@
 </body>
 
 <script>
-    $('#NovoApartamento').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        // modal.find('.modal-title').text('New message to ' + recipient)
-        modal.find('.modal-body input').val(recipient)
-        ConsultaSensoresDisponiveis();
-        ConsultaUsuarios();
-    })
 
-  
+    $('#NovoApartamento').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var recipient = button.data('whatever');
+        var modal = $(this);
+        modal.find('.modal-body input').val(recipient);
+
+    })
 
 </script>
 

@@ -1,4 +1,4 @@
-﻿
+﻿var chart;
 function apagarRegistro(id, controller) {
     if (confirm('Confirma a exclusão do registro?'))
         location.href = controller + '/Delete?id=' + id;
@@ -48,6 +48,11 @@ function CriaNovoApartamento(url) {
     var idSensor = $("#sensor").val();
     var idUsuario = $("#usuario").val();
 
+    if (!nomeNovoApartamento) {
+        alert("Por favor, preencha a Descrição.");
+        return;
+    }
+
     var model =
     {
         model: {
@@ -60,7 +65,7 @@ function CriaNovoApartamento(url) {
     }
 
     $.ajax({
-        url: 'Apartamento/ConsultaApartamentoNome',
+        url: '../Apartamento/ConsultaApartamentoNome',
         type: "POST",
         data: model,
         async: false,
@@ -74,7 +79,7 @@ function CriaNovoApartamento(url) {
                     type: "POST",
                     data: model,
                     success: function (data) {
-                        location.href = "/ConjuntoHabitacional/Index";
+                        location.href = "../ConjuntoHabitacional/Index";
                     },
                     error: function () {
                         alert("Erro ao carregar o conteúdo.");
@@ -95,7 +100,7 @@ function ConsultaSensoresDisponiveis(idSensor) {
         async: false,
         success: function (data) {
             $("#sensor").empty();
-           
+
 
             $("#sensor").append('<option value="0">Selecione</option>');
             $.each(data, function (index, item) {
@@ -123,7 +128,7 @@ function ConsultaSensoresDisponiveis(idSensor) {
 
 function ConsultaUsuarios() {
     $.ajax({
-        url: 'Usuario/ConsultaUsuariosCombo',
+        url: '../Usuario/ConsultaUsuariosCombo',
         type: "POST",
         async: false,
         success: function (data) {
@@ -133,6 +138,7 @@ function ConsultaUsuarios() {
             $.each(data, function (index, item) {
                 $("#usuario").append('<option value="' + item.id + '">' + item.descricao + '</option>');
             });
+
 
         },
         error: function () {
@@ -144,16 +150,17 @@ function ConsultaUsuarios() {
 function ConsultaApartamento(url, id) {
     urlCompleta = url + "?idApartamento=" + id;
     window.location.href = urlCompleta;
+
 }
 
 function AtualizaApartamento(url) {
     var idApartamento = $("#IdApartamento").val();
     var descricaoApartamento = $("#DescricaoModal").val();
     var idUsuarioModal = $("#IdUsuarioModal").val();
-    var idSensor = $("#IdSensor").val();
+    var idSensor = $("#sensor").val();
     var idConjuntoHabitacional = $("#IdConjuntoHabitacional").val();
 
-    if (!idApartamento || !descricaoApartamento || !idUsuarioModal ) {
+    if (!idApartamento || !descricaoApartamento || !idUsuarioModal) {
         alert("Por favor, preencha todos os campos obrigatórios.");
         return;
     }
@@ -182,3 +189,63 @@ function AtualizaApartamento(url) {
         }
     });
 };
+
+function carregaUsuarioESensor() {
+    ConsultaSensoresDisponiveis();
+    ConsultaUsuarios();
+}
+
+function initApartamento() {
+    const ctx = document.getElementById('myChart');
+    var idSensor = $("#IdSensor").val();
+    var dateFrom = $("#dateFrom").val();
+    var dateTo = $("#dateTo").val();
+
+    var data =
+    {
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        idSensor: idSensor
+    }
+
+    url = "../Api/RequestHistoryWithDate";
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        success: function (data) {
+            var listaDeValores = data.map(function (objeto) {
+                return objeto.attrValue;
+            });
+
+            var listaDeDatas = data.map(function (objeto) {
+                var data = objeto.recvTime.substring(0, 10);
+                var dataRetorno = objeto.recvTime.substring(11, 19);
+                return data + " " + dataRetorno;
+
+            });
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: listaDeDatas,
+                    datasets: [{
+                        data: listaDeValores,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            //chart.update();
+        },
+        error: function () {
+            alert("Erro ao carregar o conteúdo.");
+        }
+    });
+}

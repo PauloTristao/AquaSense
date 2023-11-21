@@ -3,14 +3,13 @@
     Layout = "_LayoutSideBar";
 }
 
-
 <head>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <div class="container mt-3">
-    <h2 style="margin-left: 12px;">Lista de Sensores</h2>
-    <div class="container">
+    <fieldset id="areaFiltro" class="form-group">
+        <legend style="width: 15%">Sensores </legend>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -38,5 +37,6 @@
         <div class="text-right">
             <a href="/sensor/Create" class="btn btn-success">Adicionar Sensor</a>
         </div>
-    </div>
+    </fieldset>
+</div>
 </div>

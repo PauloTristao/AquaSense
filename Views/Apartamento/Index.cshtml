@@ -7,20 +7,19 @@
     .modal-backdrop {
         display: none;
     }
-
 </style>
 <head>
     <link rel="stylesheet" href="~/css/apartamento.css" />
     <script src="~/js/site.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body> 
+<body>
     <div class="container">
-        <fieldset class="mt-3">
-            <legend style="width: 15%">Apartamento</legend>
+        <fieldset class="mt-3" >
+            <legend style="width: 18%;">Apartamento</legend>
             <input type="hidden" id="IdApartamento" name="IdApartamento" value="@Model.Id" />
             <input type="hidden" id="IdConjuntoHabitacional" name="IdConjuntoHabitacional" value="@Model.IdConjuntoHabitacional" />
-            <div class="row">
+            <div class="row justify-content-center align-items-center">
                 <div class="col-md-3">
                     <label for="Descricao" class="control-label">Descrição</label>
                     <input asp-for="Descricao" class="form-control" readonly disabled />
@@ -39,14 +38,32 @@
                     <span asp-validation-for="IdUsuario" class="text-danger"></span>
                     <br />
                 </div>
-                <div class="col-md-1 text-right" style="margin-top: 30px">
+                <div class="col-md-1 text-right" style="margin-top: 9px">
                     <a href="#" onclick="ConsultaSensoresDisponiveis(@Model.IdSensor)" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">Editar</a>
                 </div>
             </div>
         </fieldset>
-        <div style="margin-left: -20px" id="myContainer" class="container mt-3">
-            <canvas id="myChart"></canvas>
-        </div>
+        <fieldset class="mt-3">
+            <legend style="width: 20%">Consulta vazão</legend>
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-3">
+                    Data inicial <br />
+                    <input type="date" id="dateFrom" class="form-control" />
+                </div>
+                <div class="col-lg-3">
+                    Data final<br />
+                    <input type="date" id="dateTo" class="form-control" />
+                </div>
+                <div class="col-lg-1">
+                    <br />
+                    <input type="button" id="btnFiltro" class="btn btn-success" value="Aplicar"
+                           onclick="initApartamento()" />
+                </div>
+            </div>
+            <div style="margin-left: -20px" id="myContainer" class="container mt-3">
+                <canvas id="myChart"></canvas>
+            </div>
+        </fieldset>
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -61,7 +78,7 @@
                 <div class="modal-body">
                     <div class="col-md-6">
                         <label for="Descricao" class="control-label">Descrição</label>
-                        <input asp-for="Descricao" id="DescricaoModal" class="form-control"  />
+                        <input asp-for="Descricao" id="DescricaoModal" class="form-control" />
                         <span asp-validation-for="Descricao" class="text-danger"></span>
                         <br />
                     </div>
@@ -88,60 +105,14 @@
 
 <script>
     $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var button = $(event.relatedTarget)
+        var recipient = button.data('whatever')
         var modal = $(this)
         modal.find('.modal-title').text('New message to ' + recipient)
         modal.find('.modal-body input').val(recipient)
     })
 
-    $(document).ready(function init() {
-        const ctx = document.getElementById('myChart');
-        var idSensor = $("#IdSensor").val();
 
-        url = "../Api/RequestHistoryApartamento?idSensor=" + idSensor;
-        $.ajax({
-            url: url,
-            type: "POST",
-            success: function (data) {
-
-                var listaDeValores = data.map(function (objeto) {
-                    return objeto.attrValue;
-                });
-
-                var listaDeDatas = data.map(function (objeto) {
-                    var data = objeto.recvTime.substring(0, 10);
-                    var dataRetorno = objeto.recvTime.substring(11, 19);
-                    return data + " " + dataRetorno;
-
-                });
-
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: listaDeDatas,
-                        datasets: [{
-                            label: 'Vazão',
-                            data: listaDeValores,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            },
-            error: function () {
-                alert("Erro ao carregar o conteúdo.");
-            }
-        });
-    });
 </script>
 
 

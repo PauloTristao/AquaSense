@@ -5,12 +5,13 @@ function CarregaPaginaCentral(url) {
         url: url,
         type: "POST",
         success: function (data) {
-            $("#content-container").html(data);
+            window.location.href = url;
         },
         error: function () {
             alert("Erro ao carregar o conteúdo.");
         }
     });
+    
 }
 
 

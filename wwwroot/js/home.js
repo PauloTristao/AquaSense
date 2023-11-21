@@ -1,14 +1,15 @@
 ﻿var chart;
 
 $(document).ready(function () {
-    init();
-    setInterval(atualizar, 2000);
+    if ($('body').hasClass('pagina-home')) {
+        init();
+        intervalo = setInterval(atualizar, 2000);
+    }
 })
 
 function init() {
-    
     const ctx = document.getElementById('myChart');
-    url = "Api/RequestHistory";
+    url = "../Api/RequestHistory";
     $.ajax({
         url: url,
         type: "POST",
@@ -57,7 +58,7 @@ function init() {
 }
 
 function atualizar() {
-    url = "Api/RequestHistory";
+    url = "../Api/RequestHistory";
     $.ajax({
         url: url,
         type: "POST",

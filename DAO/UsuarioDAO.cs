@@ -1,5 +1,6 @@
 ﻿using AquaSense.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -117,6 +118,22 @@ namespace AquaSense.DAO
                 return null;
             else
                 return MontaModel(tabela.Rows[0]);
+        }
+
+        public List<UsuarioViewModel> ConsultaAvancadaUsuario(string login, string nomePessoa, int adm)
+        {
+            SqlParameter[] p = {
+                new SqlParameter("login", login),
+                new SqlParameter("nomePessoa", nomePessoa),
+                new SqlParameter("adm", adm),
+            };
+
+            var tabela = HelperDAO.ExecutaProcSelect("spConsultaAvancadaUsuarios", p);
+            var lista = new List<UsuarioViewModel>();
+            foreach (DataRow dr in tabela.Rows)
+                lista.Add(MontaModel(dr));
+
+            return lista;
         }
 
         protected override void SetTabela()

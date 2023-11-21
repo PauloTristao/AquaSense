@@ -18,12 +18,23 @@ namespace AquaSense.Controllers
                 ConjuntoHabitacionalViewModelConsulta retorno = new ConjuntoHabitacionalViewModelConsulta();
                 UsuarioViewModel usuario = HttpContext.Session.GetObject<UsuarioViewModel>("Usuario");
                 ConjuntoHabitacionalDAO conjuntoDao = new ConjuntoHabitacionalDAO();
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                SensorDAO sensorDAO = new SensorDAO();
 
                 retorno.ConjuntoHabitacional = conjuntoDao.ConsultaConjuntoHabitacionalPorUsuario(usuario.Id);
 
                 ApartamentoDAO apartamentoDao = new ApartamentoDAO();
 
                 retorno.Apartamentos = apartamentoDao.ConsultaApartamentosPorConjuntoHabitacional(retorno.ConjuntoHabitacional.Id);
+
+                foreach(var ap in retorno.Apartamentos)
+                {
+                    if (ap.IdUsuario > 0)
+                        ap.LoginUsuario = usuarioDAO.Consulta(ap.IdUsuario).LoginUsuario;
+                    if (ap.IdSensor > 0)
+                        ap.DescricaoSensor = sensorDAO.Consulta(ap.IdSensor).Descricao;
+
+                }
 
                 retorno.ConjuntoHabitacional.IdUsuarioAdm = usuario.Id;
 
