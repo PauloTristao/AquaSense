@@ -7,6 +7,7 @@ $(document).ready(function () {
     }
 })
 
+
 function init() {
     const ctx = document.getElementById('myChart');
     url = "../Api/RequestHistory";

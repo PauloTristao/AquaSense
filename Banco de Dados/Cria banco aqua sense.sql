@@ -103,23 +103,33 @@ begin
 end
 GO
 
-CREATE OR ALTER PROCEDURE spConsultaAvancadaUsuarios
+ALTER PROCEDURE [dbo].[spConsultaAvancadaUsuarios]
 (
-    @login varchar(max),
-    @nomePessoa varchar(max),
-    @adm bit
+    @login VARCHAR(MAX),
+    @nomePessoa VARCHAR(MAX),
+    @adm int
 )
 AS
 BEGIN
-    SELECT * 
-    FROM Usuario 
-    WHERE 
-        (@login = '' OR login_usuario LIKE '%' + @login + '%')
-        AND (@nomePessoa = '' OR nome_pessoa LIKE '%' + @nomePessoa + '%')
-        AND (
-            @adm = 2 OR 
-            (Adm = @adm)
-        );
+    IF @adm = 2
+    BEGIN
+        -- Se @adm for 2, não aplique nenhum filtro para a coluna Adm
+        SELECT * 
+        FROM Usuario 
+        WHERE 
+            (@login = '' OR login_usuario LIKE '%' + @login + '%')
+            AND (@nomePessoa = '' OR nome_pessoa LIKE '%' + @nomePessoa + '%');
+    END
+    ELSE
+    BEGIN
+        -- Se @adm for diferente de 2, aplique o filtro Adm = @adm
+        SELECT * 
+        FROM Usuario 
+        WHERE 
+            (@login = '' OR login_usuario LIKE '%' + @login + '%')
+            AND (@nomePessoa = '' OR nome_pessoa LIKE '%' + @nomePessoa + '%')
+            AND Adm = @adm;
+    END
 END
 
 ------------------------------------------------SP's Login---------------------------------------------------------

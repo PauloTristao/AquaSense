@@ -103,6 +103,8 @@ namespace AquaSense
             try
             {
                 DAO.Delete(id);
+                if (DAO is ApartamentoDAO)
+                    return RedirectToAction("Index" ,"ConjuntoHabitacional");
                 return RedirectToAction(NomeViewIndex);
             }
             catch (Exception erro)

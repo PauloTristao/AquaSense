@@ -53,10 +53,11 @@
                 </a>
                 <span class="tooltip">Conjunto Habitacional</span>
                 </li>
-            }else
+            }
+            else if (ViewBag.IdApartamento != null && ViewBag.IdApartamento > 0)
             {
                 <li>
-                    <a href="#" onclick="CarregaPaginaCentral('/Apartamento/Index')">
+                    <a href="#" onclick="CarregaPaginaCentral('/Apartamento/CarregaApartamento?idApartamento=' + @ViewBag.IdApartamento)">
                         <i class='bx bx-building-house'></i>
                         <span class="links_name">Apartamento</span>
                     </a>

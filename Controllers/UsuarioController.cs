@@ -65,7 +65,7 @@ namespace AquaSense.Controllers
                         DAO.Update(model);
                     }
 
-                    return RedirectToAction(NomeViewIndex);
+                    return RedirectToAction("ExibeUsuario");
                 }
             }
             catch (Exception erro)

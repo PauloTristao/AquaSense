@@ -195,6 +195,14 @@ function carregaUsuarioESensor() {
     ConsultaUsuarios();
 }
 
+
+function selecionaCaminhoChart() {
+    if (chart)
+        atualizar();
+    else
+        initApartamento();
+}
+
 function initApartamento() {
     const ctx = document.getElementById('myChart');
     var idSensor = $("#IdSensor").val();
@@ -225,7 +233,7 @@ function initApartamento() {
 
             });
 
-            new Chart(ctx, {
+            chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: listaDeDatas,
@@ -247,5 +255,44 @@ function initApartamento() {
         error: function () {
             alert("Erro ao carregar o conteúdo.");
         }
+    });
+}
+function atualizar() {
+    var idSensor = $("#IdSensor").val();
+    var dateFrom = $("#dateFrom").val();
+    var dateTo = $("#dateTo").val();
+    url = "../Api/RequestHistoryWithDate";
+    var data =
+    {
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        idSensor: idSensor
+    }
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        success: function (data) {
+
+            var listaDeValores = data.map(function (objeto) {
+                return objeto.attrValue;
+            });
+
+            var listaDeDatas = data.map(function (objeto) {
+                var data = objeto.recvTime.substring(0, 10);
+                var dataRetorno = objeto.recvTime.substring(11, 19);
+                return data + " " + dataRetorno;
+
+            });
+
+            chart.data.datasets[0].data = listaDeValores;
+            chart.data.labels = listaDeDatas;
+
+            chart.update();
+        },
+        error: function () {
+            alert("Erro ao carregar o conteúdo.");
+        }
+
     });
 }

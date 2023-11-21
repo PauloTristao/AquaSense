@@ -1,4 +1,5 @@
-﻿using AquaSense.Models;
+﻿using AquaSense.DAO;
+using AquaSense.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;

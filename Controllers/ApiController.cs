@@ -35,8 +35,22 @@ namespace AquaSense.Controllers
             connection_API conexaoApi = new connection_API();
             if (sensor != null)
             {
-                var dados = conexaoApi.RequestHistory("Flux:" + sensor.CodigoFiware, dateFrom, dateTo, 100, 1);
-                return Json(dados);
+                if (dateFrom == DateTime.MinValue && dateTo == DateTime.MinValue)
+                {
+                    var dados = conexaoApi.RequestHistory("Flux:" + sensor.CodigoFiware, 50);
+                    return Json(dados);
+                }
+                else if (dateFrom != DateTime.MinValue && dateTo == DateTime.MinValue)
+                {
+                    dateTo = DateTime.Now;
+                    var dados = conexaoApi.RequestHistory("Flux:" + sensor.CodigoFiware, dateFrom, dateTo, 50, 0);
+                    return Json(dados);
+                }
+                else
+                {
+                    var dados = conexaoApi.RequestHistory("Flux:" + sensor.CodigoFiware, dateFrom, dateTo, 50, 0);
+                    return Json(dados);
+                }
             }
             else
             {
