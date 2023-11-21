@@ -5,7 +5,7 @@ $(document).ready(function () {
         init();
         intervalo = setInterval(atualizar, 2000);
     }
-})
+});
 
 
 function init() {
@@ -15,7 +15,6 @@ function init() {
         url: url,
         type: "POST",
         success: function (data) {
-
             var listaDeValores = data.map(function (objeto) {
                 return objeto.attrValue;
             });
@@ -64,7 +63,6 @@ function atualizar() {
         url: url,
         type: "POST",
         success: function (data) {
-
             var listaDeValores = data.map(function (objeto) {
                 return objeto.attrValue;
             });

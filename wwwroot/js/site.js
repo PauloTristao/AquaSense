@@ -198,7 +198,7 @@ function carregaUsuarioESensor() {
 
 function selecionaCaminhoChart() {
     if (chart)
-        atualizar();
+        atualizarAp();
     else
         initApartamento();
 }
@@ -257,7 +257,7 @@ function initApartamento() {
         }
     });
 }
-function atualizar() {
+function atualizarAp() {
     var idSensor = $("#IdSensor").val();
     var dateFrom = $("#dateFrom").val();
     var dateTo = $("#dateTo").val();
