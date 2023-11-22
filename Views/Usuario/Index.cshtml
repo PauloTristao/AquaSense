@@ -1,46 +1,94 @@
-﻿@model List<UsuarioViewModel>
-@{
+﻿@{
     Layout = "_LayoutSideBar";
 }
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MoneyMind</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
-    <h2>Lista de Usuarios Cadastrados</h2>
-    <div class="container">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Login</th>
-                    <th>Nome</th>
-                    <th>Senha</th>
-                    <th>Adm</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (UsuarioViewModel Usuario in Model)
-                {
-                    <tr>
-                        <td>@Usuario.Id</td>
-                        <td>@Usuario.LoginUsuario</td>
-                        <td>@Usuario.NomePessoa</td>
-                        <td>@Usuario.Senha</td>
-                        <td>@Usuario.Adm</td>
-                        <td>
-                            <a href="/Usuario/Edit?id=@Usuario.Id" class="btn btn-primary">Editar</a>
-                            <a href="javascript:apagarRegistro(@Usuario.Id, 'Usuario')" class="btn btn-danger">Excluir</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <div class="text-right">
-            <a href="/Usuario/Create" class="btn btn-success">Adicionar Usuario</a>
+<body class="container mt-4">
+    <fieldset id="areaFiltro" class="form-group">
+        <legend style="width: 25%">Filtro de usuários </legend>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-3">
+                Login <br />
+                <input type="text" id="login" class="form-control" />
+            </div>
+            <div class="col-lg-3">
+                Nome pessoa <br />
+                <input type="text" id="nomePessoa" class="form-control" />
+            </div>
+            <div class="col-lg-2">
+                Adm<br />
+                <select id="adm" class="form-control" asp-items="@ViewBag.AdmCombo"></select>
+            </div>
+            <div class="col-lg-1">
+                <br />
+                <input type="button" id="btnFiltro" class="btn btn-dark" value="Aplicar"
+                       onclick="aplicaFiltroConsultaAvancada()" />
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <a href="/Usuario/Create" class="btn btn-success">Adicionar Usuario</a>
+            </div>
         </div>
+    </fieldset>
+    <div id="resultadoConsulta" class="table-responsive">
     </div>
 </body>
+<script>
+    function aplicaFiltroConsultaAvancada() {
+        var login = document.getElementById('login').value;
+        var nomePessoa = document.getElementById('nomePessoa').value;
+        var adm = document.getElementById('adm').value;
+        $.ajax({
+            url: "/Usuario/ObtemDadosConsultaAvancada",
+            data: { login: login, nomePessoa: nomePessoa, adm: adm },
+            success: function (dados) {
+                if (dados.erro != undefined) {
+                    alert(dados.msg);
+                }
+                else {
+                    document.getElementById('resultadoConsulta').innerHTML = dados;
+                }
+            },
+        });
+    }
+</script>
+
+@* <div class="container mt-3">
+    <h2 style="margin-left: 12px;">Lista de Usuarios Cadastrados</h2>
+    <div class="container">
+    <table class="table table-striped">
+    <thead>
+    <tr>
+    <th>ID</th>
+    <th>Login</th>
+    <th>Nome</th>
+    <th>Senha</th>
+    <th>Adm</th>
+    <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (UsuarioViewModel Usuario in Model)
+    {
+    <tr>
+    <td>@Usuario.Id</td>
+    <td>@Usuario.LoginUsuario</td>
+    <td>@Usuario.NomePessoa</td>
+    <td>@Usuario.Senha</td>
+    <td>@Usuario.Adm</td>
+    <td>
+    <a href="/Usuario/Edit?id=@Usuario.Id" class="btn btn-primary">Editar</a>
+    <a href="javascript:apagarRegistro(@Usuario.Id, 'Usuario')" class="btn btn-danger">Excluir</a>
+    </td>
+    </tr>
+    }
+    </tbody>
+    </table>
+    <div class="text-right">
+    <a href="/Usuario/Create" class="btn btn-success">Adicionar Usuario</a>
+    </div>
+    </div>
+    </div> *@
+@* </body> *@

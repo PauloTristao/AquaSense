@@ -1,11 +1,8 @@
+
 ﻿using RestSharp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace Conexao_MongoDB
 {
@@ -13,11 +10,11 @@ namespace Conexao_MongoDB
     {
         public JsonNode RequestRealTime(string device)
         {
-            using(var client = new RestClient("http://46.17.108.113:1026"))
+            using(var client = new RestClient("http://46.17.108.131:1026"))
             {
                 try
                 {
-                    var request = new RestRequest("v2/entities/urn:ngsi-ld:Flux:010/attrs/flux", Method.Get);
+                    var request = new RestRequest($"v2/entities/urn:ngsi-ld:{device}/attrs/flux", Method.Get);
                     request.AddHeader("fiware-service", "smart");
                     request.AddHeader("fiware-servicepath", "/");
                     request.AddHeader("accept", "application/json");
@@ -39,7 +36,7 @@ namespace Conexao_MongoDB
 
         public JsonNode RequestHistory(string device, int lastN)
         {
-            using (var client = new RestClient("http://46.17.108.113:8666"))
+            using (var client = new RestClient("http://46.17.108.131:8666"))
             {
                 try
                 {
@@ -65,14 +62,14 @@ namespace Conexao_MongoDB
 
         public JsonNode RequestHistory(string device, DateTime dateFrom, DateTime dateTo, int hLimit, int hOffset)
         {
-            using (var client = new RestClient("http://46.17.108.113:8666"))
+            using (var client = new RestClient("http://46.17.108.131:8666"))
             {
                 try
                 {
                     string dateFrom_String = dateFrom.ToString("yyyy-MM-ddTHH:mm:ss.fff");
                     string dateTo_String = dateTo.ToString("yyyy-MM-ddTHH:mm:ss.fff");
 
-                    RestRequest request = new RestRequest($"STH/v1/contextEntities/type/Flux/id/urn:ngsi-ld:Flux:010/attributes/flux?dateFrom={dateFrom_String}&dateTo={dateTo_String}&hLimit={hLimit}&hOffset={hOffset}", Method.Get);
+                    RestRequest request = new RestRequest($"STH/v1/contextEntities/type/Flux/id/urn:ngsi-ld:{device}/attributes/flux?dateFrom={dateFrom_String}&dateTo={dateTo_String}&hLimit={hLimit}&hOffset={hOffset}", Method.Get);
                     request.AddHeader("fiware-service", "smart");
                     request.AddHeader("fiware-servicepath", "/");
 

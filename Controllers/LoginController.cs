@@ -65,7 +65,8 @@ namespace AquaSense.Controllers
             try
             {
                 ViewBag.Operacao = "I";
-                UsuarioViewModel model = Activator.CreateInstance<UsuarioViewModel>();
+                //UsuarioAdmViewModel model = Activator.CreateInstance<UsuarioAdmViewModel>();
+                UsuarioAdmViewModel model = new UsuarioAdmViewModel();
                 return View("Form", model);
             }
             catch (Exception erro)
@@ -74,7 +75,7 @@ namespace AquaSense.Controllers
             }
         }
 
-        public virtual IActionResult Save(UsuarioViewModel model, string Operacao)
+        public virtual IActionResult Save(UsuarioAdmViewModel model, string Operacao)
         {
             try
             {
@@ -86,7 +87,7 @@ namespace AquaSense.Controllers
                 }
                 else
                 {
-                    usuarioDao.Insert(model);
+                    usuarioDao.InsertUsuarioAdm(model);
 
                     return RedirectToAction("Index", "Login");
                 }
@@ -109,24 +110,28 @@ namespace AquaSense.Controllers
                 return null;
         }
 
-        protected void ValidaDados(UsuarioViewModel model, string operacao)
+        protected void ValidaDados(UsuarioAdmViewModel model, string operacao)
         {
-            if (string.IsNullOrEmpty(model.NomePessoa))
-                ModelState.AddModelError("NomePessoa", "Preencha o nome.");
-            if (string.IsNullOrEmpty(model.NomeConjuntoHabitacional))
-                ModelState.AddModelError("NomeConjuntoHabitacional", "Preencha o portifolio.");
-            if (string.IsNullOrEmpty(model.Senha))
-                ModelState.AddModelError("senha", "Preencha a senha.");
-            if (model != null && !string.IsNullOrEmpty(model.Senha) && model.Senha.Length < 4)
-                ModelState.AddModelError("senha", "A senha tem que conter pelo menos 4 caracteres");
-            //Imagem será obrigatio apenas na inclusão.
-            //Na alteração iremos considerar a que já estava salva.
-            if (model.Imagem == null && operacao == "I")
-                ModelState.AddModelError("Imagem", "Escolha uma imagem.");
-            if (model.Imagem != null && model.Imagem.Length / 1024 / 1024 >= 2)
-                ModelState.AddModelError("Imagem", "Imagem limitada a 2 mb.");
+            if (string.IsNullOrEmpty(model.Usuario.NomePessoa))
+                ModelState.AddModelError("Usuario.NomePessoa", "Preencha o nome.");
+            if (string.IsNullOrEmpty(model.Usuario.Senha))
+                ModelState.AddModelError("Usuario.Senha", "Preencha a senha.");
+            if (model != null && !string.IsNullOrEmpty(model.Usuario.Senha) && model.Usuario.Senha.Length < 4)
+                ModelState.AddModelError("Usuario.Senha", "A senha tem que conter pelo menos 4 caracteres");
+            if (model.Usuario.Imagem == null && operacao == "I")
+                ModelState.AddModelError("Usuario.Imagem", "Escolha uma imagem.");
+            if (model.Usuario.Imagem != null && model.Usuario.Imagem.Length / 1024 / 1024 >= 2)
+                ModelState.AddModelError("Usuario.Imagem", "Imagem limitada a 2 mb.");
 
-            model.ImagemEmByte = ConvertImageToByte(model.Imagem);
+            if (string.IsNullOrEmpty(model.ConjuntoHabitacional.Nome))
+                ModelState.AddModelError("ConjuntoHabitacional.Nome", "Preencha o nome.");
+            if (string.IsNullOrEmpty(model.ConjuntoHabitacional.Endereco))
+                ModelState.AddModelError("ConjuntoHabitacional.Endereco", "Preencha o endereço.");
+            if (string.IsNullOrEmpty(model.ConjuntoHabitacional.Cnpj))
+                ModelState.AddModelError("ConjuntoHabitacional.Cnpj", "Preencha o CNPJ.");
+
+
+            model.Usuario.ImagemEmByte = ConvertImageToByte(model.Usuario.Imagem);
         }
     }
 }

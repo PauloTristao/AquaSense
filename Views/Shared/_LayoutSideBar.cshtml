@@ -29,51 +29,64 @@
             <li>
                 <a href="#" onclick="CarregaPaginaCentral('/Home/Index')">
                     <i class='bx bx-grid-alt'></i>
-                    <span class="links_name">Home</span>
+                    <span class="links_name">Dashboard</span>
                 </a>
-                <span class="tooltip">Home</span>
+                <span class="tooltip">Dashboard</span>
             </li>
             @if (ViewBag.Adm)
             {
                 <li>
 
-                    <a href="#" onclick="CarregaPaginaCentral('/Usuario/Index')">
+                    <a href="#" onclick="CarregaPaginaCentral('/Usuario/ExibeUsuario')">
                         <i class='bx bx-user'></i>
-                        <span class="links_name">User</span>
+                        <span class="links_name">Usuário</span>
                     </a>
-                    <span class="tooltip">User</span>
+                    <span class="tooltip">Usuário</span>
                 </li>
             } 
-            <li>
-                <a href="#" onclick="CarregaPaginaCentral('/Portifolio/Index')">
-                    <i class='bx bx-wallet'></i>
-                    <span class="links_name">Portifolio</span>
+            @if (ViewBag.Adm)
+            {
+                <li>
+                    <a href="#" onclick="CarregaPaginaCentral('/ConjuntoHabitacional/Index')">
+                    <i class='bx bx-building-house'></i>
+                    <span class="links_name">Conjunto Habitacional</span>
                 </a>
-                <span class="tooltip">Portifolio</span>
-            </li>
+                <span class="tooltip">Conjunto Habitacional</span>
+                </li>
+            }
+            else if (ViewBag.IdApartamento != null && ViewBag.IdApartamento > 0)
+            {
+                <li>
+                    <a href="#" onclick="CarregaPaginaCentral('/Apartamento/CarregaApartamento?idApartamento=' + @ViewBag.IdApartamento)">
+                        <i class='bx bx-building-house'></i>
+                        <span class="links_name">Apartamento</span>
+                    </a>
+                    <span class="tooltip">Apartamento</span>
+                </li>
+            }
             @if (ViewBag.Adm)
             { 
                 <li>
-                    <a href="#" onclick="CarregaPaginaCentral('/Ativo/Index')">
-                        <i class='bx bx-money'></i>
-                        <span class="links_name">Ativos</span>
+                    <a href="#" onclick="CarregaPaginaCentral('/Sensor/Index')">
+                        <i class='bx bx-broadcast'></i>
+                        <span class="links_name">Sensor</span>
                     </a>
-                    <span class="tooltip">Ativos</span>
+                    <span class="tooltip">Sensor</span>
                 </li>
             } 
-            <li>
+@*             <li>
                 <a href="#" onclick="CarregaPaginaCentral('/Carteira/ExibeMovimentacao')">
-                    <i class='bx bx-transfer'></i>
-                    <span class="links_name">Movimentações</span>
+                    <i class='bx bx-dollar'></i>
+                    <span class="links_name">Contas</span>
                 </a>
-                <span class="tooltip">Movimentações</span>
-            </li>
+                <span class="tooltip">Contas</span>
+            </li> *@
             <li>
                 <a href="#" onclick="CarregaPaginaCentral('/Sobre/Index')">
                     <i class='bx bx-info-circle'></i>
                     <span class="links_name">Sobre</span>
                 </a>
-                <span class="tooltip">Portifolio</span>
+                <span class="tooltip">Sobre</span>
             </li>
             <li class="profile">
                 <div class="profile-details">
@@ -91,26 +104,6 @@
     <section id="content-container" class="home-section">
         @RenderBody()
     </section>
-    <script>
-        let sidebar = document.querySelector(".sidebar");
-        let closeBtn = document.querySelector("#btn");
-        let searchBtn = document.querySelector(".bx-search");
-        closeBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("open");
-            menuBtnChange();//calling the function(optional)
-        });
-        searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search icon
-            sidebar.classList.toggle("open");
-            menuBtnChange(); //calling the function(optional)
-        });
-        // following are the code to change sidebar button(optional)
-        function menuBtnChange() {
-            if (sidebar.classList.contains("open")) {
-                closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the icons class
-            } else {
-                closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the icons class
-            }
-        }
-    </script>
+
 </body>
 </html>

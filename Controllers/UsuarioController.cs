@@ -2,8 +2,12 @@
 using AquaSense.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.IO;
+using System.Linq;
 
 namespace AquaSense.Controllers
 {
@@ -14,6 +18,29 @@ namespace AquaSense.Controllers
             DAO = new UsuarioDAO();
         }
 
+        public IActionResult ExibeUsuario()
+        {
+            try
+            {
+                UsuarioViewModel usuario = HttpContext.Session.GetObject<UsuarioViewModel>("Usuario");
+                PreparaComboAdm();
+                ViewBag.AdmCombo.Insert(0, new SelectListItem("TODAS", "0"));
+                return View("Index");
+            }
+            catch (Exception erro)
+            {
+                return View("Error", new ErrorViewModel(erro.Message));
+            }
+        }
+
+        private void PreparaComboAdm()
+        {
+            List<SelectListItem> listaRetorno = new List<SelectListItem>();
+            listaRetorno.Add(new SelectListItem("True", "1"));
+            listaRetorno.Add(new SelectListItem("False", "2"));
+
+            ViewBag.AdmCombo = listaRetorno;
+        }
 
         public override IActionResult Save(UsuarioViewModel model, string Operacao)
         {
@@ -29,20 +56,16 @@ namespace AquaSense.Controllers
                 }
                 else
                 {
-                    ConjuntoHabitacionalViewModel conj = new ConjuntoHabitacionalViewModel()
-                    {
-                        Nome = model.NomeConjuntoHabitacional
-                    };
                     if (Operacao == "I")
                     {
-                        conj.IdUsuarioAdm = DAO.Insert(model);
+                        DAO.Insert(model);
                     }
                     else
                     {
                         DAO.Update(model);
                     }
 
-                    return RedirectToAction(NomeViewIndex);
+                    return RedirectToAction("ExibeUsuario");
                 }
             }
             catch (Exception erro)
@@ -68,8 +91,6 @@ namespace AquaSense.Controllers
             base.ValidaDados(model, operacao);
             if (string.IsNullOrEmpty(model.NomePessoa))
                 ModelState.AddModelError("NomePessoa", "Preencha o nome.");
-            if (string.IsNullOrEmpty(model.NomeConjuntoHabitacional))
-                ModelState.AddModelError("NomeConjuntoHabitacional", "Preencha o portifolio.");
             if (string.IsNullOrEmpty(model.Senha))
                 ModelState.AddModelError("senha", "Preencha a senha.");
             if (model != null && !string.IsNullOrEmpty(model.Senha) && model.Senha.Length < 4)
@@ -97,11 +118,10 @@ namespace AquaSense.Controllers
         public override IActionResult Edit(int id)
         {
             try
-            { 
+            {
                 ViewBag.Operacao = "A";
                 var model = DAO.Consulta(id);
                 var portifolioDAO = new ConjuntoHabitacionalDAO();
-                model.NomeConjuntoHabitacional = portifolioDAO.ConsultaConjuntoHabitacionalPorUsuario(id).Nome;
                 if (model == null)
                     return RedirectToAction(NomeViewIndex);
                 else
@@ -115,6 +135,36 @@ namespace AquaSense.Controllers
                 return View("Error", new ErrorViewModel(erro.ToString()));
             }
         }
+        public IActionResult ConsultaUsuariosCombo()
+        {
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+            var lista = usuarioDao.Listagem();
+
+            return Json(lista.Select(usuario => new { Id = usuario.Id, Descricao = usuario.LoginUsuario }));
+        }
+
+        public IActionResult ObtemDadosConsultaAvancada(string login, string nomePessoa, int adm)
+        {
+            try
+            {
+                if (adm == 2)
+                    adm = 0;
+                else if (adm == 0)
+                    adm = 2;
+                if (login == null)
+                    login = "";
+                if (nomePessoa == null)
+                    nomePessoa = "";
+
+                UsuarioDAO dao = new UsuarioDAO();
+                var lista = dao.ConsultaAvancadaUsuario(login, nomePessoa, adm);
+                return PartialView("pvGridUsuario", lista);
+            }
+            catch (Exception erro)
+            {
+                return Json(new { erro = true, msg = erro.Message });
+            }
+        }
     }
-  
+
 }

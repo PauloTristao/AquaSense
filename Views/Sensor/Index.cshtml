@@ -1,0 +1,42 @@
+﻿@model List<SensorViewModel>
+@{
+    Layout = "_LayoutSideBar";
+}
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<div class="container mt-3">
+    <fieldset id="areaFiltro" class="form-group">
+        <legend style="width: 15%">Sensores </legend>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descricao</th>
+                    <th>Codigo Fiware</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SensorViewModel sensor in Model)
+                {
+                    <tr>
+                        <td>@sensor.Id</td>
+                        <td>@sensor.Descricao</td>
+                        <td>@sensor.CodigoFiware</td>
+                        <td>
+                            <a href="/Sensor/Edit?id=@sensor.Id" class="btn btn-primary">Editar</a>
+                            <a href="javascript:apagarRegistro(@sensor.Id, 'Sensor')" class="btn btn-danger">Excluir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a href="/sensor/Create" class="btn btn-success">Adicionar Sensor</a>
+        </div>
+    </fieldset>
+</div>
+</div>

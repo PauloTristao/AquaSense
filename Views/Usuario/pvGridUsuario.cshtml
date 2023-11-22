@@ -1,0 +1,23 @@
+﻿@model List<UsuarioViewModel>
+<table class="table table-striped">
+    <tr>
+        <th>Id</th>
+        <th>Login</th>
+        <th>Nome Pessoa</th>
+        <th>Adm</th>
+        <th>Ações</th>
+    </tr>
+    @foreach (var usuario in Model)
+    {
+        <tr>
+            <td>@usuario.Id</td>
+            <td>@usuario.LoginUsuario</td>
+            <td>@usuario.NomePessoa</td>
+            <td>@usuario.Adm</td>
+            <td>
+                <a href="/Usuario/Edit?id=@usuario.Id" class="btn btn-primary">Editar</a>
+                <a href="javascript:apagarRegistro(@usuario.Id, 'Usuario')" class="btn btn-danger">Excluir</a>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,4 +1,4 @@
-﻿@model UsuarioViewModel
+﻿@model UsuarioAdmViewModel
 @{
     Layout = "_Layout";
 }
@@ -20,7 +20,7 @@
 
     legend {
         padding: 2px 4px;
-        width: 15%
+        width: 12%
     }
 
     .container {
@@ -54,27 +54,26 @@
                 </div>
             }
             <fieldset class="fieldset-filho">
-                <legend style="width: 40%">Usuário administrador</legend>
-                <label for="loginUsuario" class="control-label">Login do Usuario</label>
-                <input asp-for="LoginUsuario" class="form-control" />
-                <span asp-validation-for="LoginUsuario" class="text-danger"></span>
-                <br />
-
-                <label for="NomePessoa" class="control-label">Nome da pessoa</label>
-                <input asp-for="NomePessoa" class="form-control" />
-                <span asp-validation-for="NomePessoa" class="text-danger"></span>
+                <legend style="width: 30%">Usuário administrador</legend>
+                <label for="Usuario.loginUsuario" class="control-label">Login do Usuario</label>
+                <input asp-for="Usuario.LoginUsuario" class="form-control" />
+                <span asp-validation-for="Usuario.LoginUsuario" class="text-danger"></span>
                 <br />
 
                 <label for="senha" class="control-label">Senha</label>
-                <input asp-for="Senha" class="form-control" />
-                <span asp-validation-for="Senha" class="text-danger"></span>
+                <input asp-for="Usuario.Senha" class="form-control" />
+                <span asp-validation-for="Usuario.Senha" class="text-danger"></span>
                 <br />
 
+                <label for="NomePessoa" class="control-label">Nome da pessoa responsável</label>
+                <input asp-for="Usuario.NomePessoa" class="form-control" />
+                <span asp-validation-for="Usuario.NomePessoa" class="text-danger"></span>
                 <br />
-                <input type="file" name="Imagem" id="Imagem" onchange="exibirImagem()" class="btn btn-secondary">
-                <img id="imgPreview" src="data:image/jpeg;base64,@Model.ImagemEmBase64" class="img-responsive"
+                <br />
+                <input type="file" name="Usuario.Imagem" id="Imagem" onchange="exibirImagem()" class="btn btn-secondary">
+                <img id="imgPreview" src="data:image/jpeg;base64,@Model.Usuario.ImagemEmBase64" class="img-responsive"
                      width="200">
-                <span asp-validation-for="Imagem" class="text-danger"></span>
+                <span asp-validation-for="Usuario.Imagem" class="text-danger"></span>
                 <br />
                 <br />
             </fieldset>
@@ -82,10 +81,20 @@
             <br />
             <br />
             <fieldset>
-                <legend style="width: 40%">Conjunto Habitacional</legend>
+                <legend style="width: 30%">Conjunto Habitacional</legend>
                 <label for="NomeConjuntoHabitacional" class="control-label">Nome do conjunto habitacional</label>
-                <input asp-for="NomeConjuntoHabitacional" class="form-control" />
-                <span asp-validation-for="NomeConjuntoHabitacional" class="text-danger"></span>
+                <input asp-for="ConjuntoHabitacional.Nome" class="form-control" />
+                <span asp-validation-for="ConjuntoHabitacional.Nome" class="text-danger"></span>
+                <br />
+
+                <label for="ConjuntoHabitacional.Endereco" class="control-label">Endereço</label>
+                <input asp-for="ConjuntoHabitacional.Endereco" class="form-control" />
+                <span asp-validation-for="ConjuntoHabitacional.Endereco" class="text-danger"></span>
+                <br />
+
+                <label for="ConjuntoHabitacional.Cnpj" class="control-label">CNPJ</label>
+                <input asp-for="ConjuntoHabitacional.Cnpj" class="form-control" />
+                <span asp-validation-for="ConjuntoHabitacional.Cnpj" class="text-danger"></span>
                 <br />
             </fieldset>
             <br />
