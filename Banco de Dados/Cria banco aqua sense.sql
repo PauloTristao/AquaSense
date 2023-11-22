@@ -1,10 +1,10 @@
 
 
 go
-create database AquaSense2
+create database AquaSense
 
 go
-use AquaSense2
+use AquaSense
 
 
 ------------------------------------------Criação da tabela Usuario---------------------------------------------------
