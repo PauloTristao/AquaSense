@@ -1,8 +1,10 @@
-go
-create database AquaSense
+
 
 go
-use AquaSense
+create database AquaSense2
+
+go
+use AquaSense2
 
 
 ------------------------------------------Criação da tabela Usuario---------------------------------------------------
@@ -103,7 +105,7 @@ begin
 end
 GO
 
-ALTER PROCEDURE [dbo].[spConsultaAvancadaUsuarios]
+CREATE OR ALTER PROCEDURE [dbo].[spConsultaAvancadaUsuarios]
 (
     @login VARCHAR(MAX),
     @nomePessoa VARCHAR(MAX),
@@ -180,6 +182,9 @@ end
 
 go
 create or alter procedure spConsulta_SensoresDisponiveis
+(
+	@id_usuario_adm varchar(max)
+)
 as
 begin
  select * from Conjunto_Habitacional where id_usuario_adm = @id_usuario_adm
