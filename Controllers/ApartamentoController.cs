@@ -90,9 +90,16 @@ namespace AquaSense.Controllers
 
         public bool ConsultaApartamentoNome(ApartamentoViewModel model)
         {
-            ApartamentoDAO apartamentoDao = new ApartamentoDAO();
-            bool nomeJaCadastrado = apartamentoDao.ConsultaApartamentosPorConjuntoHabitacional(model.IdConjuntoHabitacional).Any(x => x.Descricao == model.Descricao);
-            return nomeJaCadastrado;
+            try
+            {
+                ApartamentoDAO apartamentoDao = new ApartamentoDAO();
+                bool nomeJaCadastrado = apartamentoDao.ConsultaApartamentosPorConjuntoHabitacional(model.IdConjuntoHabitacional).Any(x => x.Descricao == model.Descricao);
+                return nomeJaCadastrado;
+            }
+            catch (Exception erro)
+            {
+                return true;
+            }
         }
     }
 }
