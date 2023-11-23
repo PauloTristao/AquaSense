@@ -105,7 +105,7 @@ begin
 end
 GO
 
-CREATE OR ALTER PROCEDURE [dbo].[spConsultaAvancadaUsuarios]
+CREATE OR ALTER PROCEDURE spConsultaAvancadaUsuarios
 (
     @login VARCHAR(MAX),
     @nomePessoa VARCHAR(MAX),
@@ -183,7 +183,7 @@ end
 
 
 go
-CREATE OR ALTER   procedure dbo.spConsulta_ConjuntoHabitacionalPorUsuario
+CREATE OR ALTER   procedure spConsulta_ConjuntoHabitacionalPorUsuario
 (
    @id_usuario_adm int
 )
@@ -262,14 +262,14 @@ end
 GO
 
 go
-CREATE OR ALTER   procedure dbo.spConsulta_SensoresDisponiveis
+CREATE OR ALTER   procedure spConsulta_SensoresDisponiveis
 as
 begin
 	select * from Sensor where id_sensor not in (select id_sensor from Apartamento)
 end
 ------------------------------------------------------SP's Apartamento-----------------------------------------------
 GO
-CREATE OR ALTER procedure [dbo].[spConsulta_ApartamentoPorConjuntoHabitacional]
+CREATE OR ALTER procedure spConsulta_ApartamentoPorConjuntoHabitacional
 (
    @id_conjunto_habitacional int
 )
