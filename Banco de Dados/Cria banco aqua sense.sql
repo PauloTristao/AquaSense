@@ -166,7 +166,7 @@ begin
 end
 
 go
-create or alter procedure spInsert_ConjuntoHabitacional
+create or alter procedure spInsert_Conjunto_Habitacional
 (
 	@id int,
 	@nome varchar(max),
@@ -180,27 +180,17 @@ begin
 			            values (@nome, @endereco, @cnpj, @id_usuario_adm)
 end
 
+
+
 go
-create or alter procedure spConsulta_SensoresDisponiveis
+CREATE OR ALTER   procedure dbo.spConsulta_ConjuntoHabitacionalPorUsuario
 (
-	@id_usuario_adm varchar(max)
+   @id_usuario_adm int
 )
 as
 begin
  select * from Conjunto_Habitacional where id_usuario_adm = @id_usuario_adm
 end
-GO
-
---go
---create or alter procedure spConsulta_PortifolioPorUsuario
---(
---   @id_usuario int
---)
---as
---begin
--- select * from ConjuntoHabitacional where id_usuario = @id_usuario
---end
---GO
 
 
 ------------------------------------------------------SP's GENERICAS-----------------------------------------------
@@ -271,6 +261,12 @@ begin
 end
 GO
 
+go
+CREATE OR ALTER   procedure dbo.spConsulta_SensoresDisponiveis
+as
+begin
+	select * from Sensor where id_sensor not in (select id_sensor from Apartamento)
+end
 ------------------------------------------------------SP's Apartamento-----------------------------------------------
 GO
 CREATE OR ALTER procedure [dbo].[spConsulta_ApartamentoPorConjuntoHabitacional]

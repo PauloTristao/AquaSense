@@ -10,7 +10,7 @@ namespace AquaSense.DAO
         /// <returns>Conexão aberta</returns>
         public static SqlConnection GetConexao()
         {
-            string strCon = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=AquaSense;Trusted_Connection=True;";    
+            string strCon = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=AquaSense2;Trusted_Connection=True;";    
             SqlConnection conexao = new SqlConnection(strCon);
             conexao.Open();
             return conexao;

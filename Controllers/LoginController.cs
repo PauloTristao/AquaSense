@@ -12,36 +12,49 @@ namespace AquaSense.Controllers
     {
         public IActionResult Index()
         {
-            LoginViewModel model = new LoginViewModel();
-            return View(model);
-        }
+            try
+            {
+                LoginViewModel model = new LoginViewModel();
+                return View(model);
+            }
+            catch (Exception erro)
+            {
+                return View("ErrorLogin", new ErrorViewModel(erro.ToString()));
+            }
+}
         public IActionResult Login(LoginViewModel model)
         {
-            ValidaDados(model);
-            if (ModelState.IsValid == false)
+            try
             {
-                return View("Index", model);
-            }
-            else
-            {
-                UsuarioDAO usuarioDAO = new UsuarioDAO();
-                UsuarioViewModel user = usuarioDAO.ConsultaAcesso(model.Login, model.Senha);
-
-                if (user != null)
+                ValidaDados(model);
+                if (ModelState.IsValid == false)
                 {
-                    var json = JsonConvert.SerializeObject(user);
-                    HttpContext.Session.SetString("Usuario", json);
-                    HttpContext.Session.SetString("UsuarioName", json);
-                    HttpContext.Session.SetString("UsuarioFoto", json);
-                    HttpContext.Session.SetString("Logado", "true");
-                    return RedirectToAction("index", "Home");
+                    return View("Index", model);
                 }
                 else
                 {
-                    ModelState.Clear();
-                    ModelState.AddModelError("Senha", "Usuário ou senha inválidos!");
-                    return View("Index", model);
+                    UsuarioDAO usuarioDAO = new UsuarioDAO();
+                    UsuarioViewModel user = usuarioDAO.ConsultaAcesso(model.Login, model.Senha);
+
+                    if (user != null)
+                    {
+                        var json = JsonConvert.SerializeObject(user);
+                        HttpContext.Session.SetString("Usuario", json);
+                        HttpContext.Session.SetString("UsuarioName", json);
+                        HttpContext.Session.SetString("UsuarioFoto", json);
+                        HttpContext.Session.SetString("Logado", "true");
+                        return RedirectToAction("index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("Senha", "Usuário ou senha inválidos!");
+                        return View("Index", model);
+                    }
                 }
+            }catch(Exception erro)
+            {
+                return View("ErrorLogin", new ErrorViewModel(erro.ToString()));
             }
         }
         public IActionResult LogOff()
@@ -71,7 +84,7 @@ namespace AquaSense.Controllers
             }
             catch (Exception erro)
             {
-                return View("Error", new ErrorViewModel(erro.ToString()));
+                return View("ErrorLogin", new ErrorViewModel(erro.ToString()));
             }
         }
 
@@ -94,7 +107,7 @@ namespace AquaSense.Controllers
             }
             catch (Exception erro)
             {
-                return View("Error", new ErrorViewModel(erro.ToString()));
+                return View("ErrorLogin", new ErrorViewModel(erro.ToString()));
             }
         }
 
